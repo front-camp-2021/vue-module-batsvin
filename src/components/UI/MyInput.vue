@@ -2,9 +2,9 @@
   <div class="main-cards__search">
     <input
       type="text"
+      placeholder="Search.."
       :value="modelValue"
       @input="updateInput"
-      placeholder="Search.."
     />
   </div>
 </template>
@@ -13,7 +13,7 @@
 export default {
   name: "my-input",
   props: {
-    moduleValue: [String, Number],
+    modelValue: [String, Number],
   },
   methods: {
     updateInput(event) {

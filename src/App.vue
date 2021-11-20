@@ -1,13 +1,9 @@
 <template>
   <div class="container">
     <header-app />
-    <span>Checked names: {{ checkedNames }}</span>
+    <span>Checked names: </span>
     <main>
-      <aside-comp
-        :brands="brands"
-        :categories="categories"
-        v:model="checkedNames"
-      />
+      <aside-comp :brands="brands" :categories="categories" />
       <section class="main-cards">
         <div class="main-cards__header">
           <h5>7,618 results found</h5>
@@ -16,7 +12,7 @@
           </button>
         </div>
         <my-input v-model="searchQuery" />
-        <card-list :cards="cards" v-if="cards.length > 0" />
+        <card-list :cards="searchCards" v-if="cards.length > 0" />
         <h2 v-else>List clear</h2>
       </section>
     </main>
@@ -38,12 +34,12 @@ export default {
     AsideComp,
     MyInput,
   },
+
   data() {
     return {
       cards: [],
       brands: [],
       categories: [],
-      checkedNames: [],
       searchQuery: "",
     };
   },
@@ -80,7 +76,9 @@ export default {
   },
   computed: {
     searchCards() {
-      return this.cards.filter((card) => card.includes(this.searchQuery));
+      return this.cards.filter((card) =>
+        card.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
 };
