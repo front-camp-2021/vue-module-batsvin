@@ -3,6 +3,7 @@ module.exports = {
   env: {
     node: true,
   },
+  rules: { "vue/no-multiple-template-root": "off" },
   extends: [
     'plugin:vue/recommended'
   ],

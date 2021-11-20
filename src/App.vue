@@ -1,18 +1,36 @@
 <template>
-  <card-list :cards="cards" />
+  <div class="container">
+    <header-app />
+    <main>
+      <aside-comp />
+      <section class="main-cards">
+        <search-menu />
+        <card-list :cards="cards" v-if="cards.length > 0" />
+        <h2 v-else>List clear</h2>
+      </section>
+    </main>
+  </div>
 </template>
 
 <script>
 import CardList from "@/components/CardList";
 import axios from "axios";
+import HeaderApp from "@/components/HeaderApp.vue";
+import SearchMenu from "./components/SearchMenu.vue";
+import AsideComp from "./components/AsideComp.vue";
 
 export default {
   components: {
     CardList,
+    SearchMenu,
+    HeaderApp,
+    AsideComp,
   },
   data() {
     return {
       cards: [],
+      brands: [],
+      categories: [],
     };
   },
   methods: {
@@ -24,9 +42,27 @@ export default {
         alert("warning with cards data");
       }
     },
+    async fetchCategories() {
+      try {
+        const response = await axios.get("http://localhost:3000/categories");
+        this.categories = response.data;
+      } catch (e) {
+        alert("warning with categories data");
+      }
+    },
+    async fetchBrands() {
+      try {
+        const response = await axios.get("http://localhost:3000/brands");
+        this.brands = response.data;
+      } catch (e) {
+        alert("warning with brands data");
+      }
+    },
   },
   mounted() {
     this.fetchCards();
+    this.fetchCategories();
+    this.fetchBrands();
   },
 };
 </script>
