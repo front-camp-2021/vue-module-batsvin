@@ -5,7 +5,7 @@
       <img src="img/Path (2).svg" alt="" />
     </button>
   </div>
-  <my-input />
+  <my-input v-model="searchQuery" />
 </template>
 
 <script>

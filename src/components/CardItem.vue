@@ -3,7 +3,7 @@
     <section class="card">
       <div class="card__img">
         <div class="card__img-padding">
-          <img :src="card.images[0]" alt="jbl" />
+          <img :src="card.images[0]" :alt="card.title" />
         </div>
       </div>
       <header class="card__header">
@@ -30,7 +30,6 @@
       </header>
       <article class="card__text">
         <h3>{{ card.title }}</h3>
-        <span>Опис Lorem ipsum dolor sit amet. </span>
       </article>
       <footer class="card__footer">
         <button class="card__wishlists">

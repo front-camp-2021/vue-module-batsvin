@@ -1,10 +1,21 @@
 <template>
   <div class="container">
     <header-app />
+    <span>Checked names: {{ checkedNames }}</span>
     <main>
-      <aside-comp />
+      <aside-comp
+        :brands="brands"
+        :categories="categories"
+        v:model="checkedNames"
+      />
       <section class="main-cards">
-        <search-menu />
+        <div class="main-cards__header">
+          <h5>7,618 results found</h5>
+          <button class="main-cards__hearts">
+            <img src="img/Path (2).svg" alt="" />
+          </button>
+        </div>
+        <my-input v-model="searchQuery" />
         <card-list :cards="cards" v-if="cards.length > 0" />
         <h2 v-else>List clear</h2>
       </section>
@@ -18,19 +29,22 @@ import axios from "axios";
 import HeaderApp from "@/components/HeaderApp.vue";
 import SearchMenu from "./components/SearchMenu.vue";
 import AsideComp from "./components/AsideComp.vue";
+import MyInput from "./components/UI/MyInput.vue";
 
 export default {
   components: {
     CardList,
-    SearchMenu,
     HeaderApp,
     AsideComp,
+    MyInput,
   },
   data() {
     return {
       cards: [],
       brands: [],
       categories: [],
+      checkedNames: [],
+      searchQuery: "",
     };
   },
   methods: {
@@ -63,6 +77,11 @@ export default {
     this.fetchCards();
     this.fetchCategories();
     this.fetchBrands();
+  },
+  computed: {
+    searchCards() {
+      return this.cards.filter((card) => card.includes(this.searchQuery));
+    },
   },
 };
 </script>
@@ -459,6 +478,8 @@ header img {
   color: #2c2c2c;
   padding-bottom: 1px;
   margin: 0;
+  height: 38px;
+  overflow: hidden;
 }
 .main-cards__container .card__text span {
   font-style: normal;
@@ -476,7 +497,7 @@ header img {
 }
 @media screen and (min-device-width: 1200px) and (max-device-width: 2400px) and (-webkit-min-device-pixel-ratio: 1) {
   .aside {
-    width: 30%;
+    width: 400px;
   }
   .card-background {
     width: 33.33%;
