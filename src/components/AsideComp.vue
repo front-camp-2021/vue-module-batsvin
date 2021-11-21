@@ -32,7 +32,7 @@
               :id="category"
               :name="category"
               :value="category"
-              v-model="checkedNames"
+              v-model="checkedFilters"
             />
             <label :for="category">
               <span>{{ category }}</span>
@@ -52,7 +52,7 @@
               :id="brand"
               :name="brand"
               :value="brand"
-              v-model="checkedNames"
+              v-model="checkedFilters"
             />
             <label :for="brand">
               <span>{{ brand }}</span>
@@ -62,9 +62,11 @@
         </div>
         <br />
       </div>
-      <span>Checked names: {{ checkedNames }}</span>
+      <span>Checked names: {{ checkedFilters }}</span>
     </div>
-    <button class="aside__clear"><span>CLEAR ALL FILTERS</span></button>
+    <button class="aside__clear" @click="$store.commit('clearFilterList')">
+      <span>CLEAR ALL FILTERS</span>
+    </button>
   </aside>
 </template>
 
@@ -80,10 +82,18 @@ export default {
       required: true,
     },
   },
+  computed: {
+    checkedFilters: {
+      set(val) {
+        this.$store.state.checkedFilters = val;
+      },
+      get() {
+        return this.$store.state.checkedFilters;
+      },
+    },
+  },
   data() {
-    return {
-      checkedNames: [],
-    };
+    return {};
   },
 };
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <header-app />
-    <span>Checked names: </span>
     <main>
       <aside-comp :brands="brands" :categories="categories" />
       <section class="main-cards">
@@ -110,8 +109,39 @@ export default {
     this.fetchBrands();
   },
   computed: {
+    filterCards() {
+      if (this.$store.state.checkedFilters.length == 0) {
+        return this.cards;
+      }
+
+      let a = this.cards.filter((card) => {
+        let filterChecker = false;
+        this.$store.state.checkedFilters.forEach((e) => {
+          e = e.toLowerCase().replace(" ", "_");
+          if (e == card.category || e == card.brand) {
+            filterChecker = true;
+          }
+        });
+        return filterChecker;
+      });
+      return a;
+      //return (
+      //this.$store.state.checkedFilters
+      // .forEach((e) => {
+      //   e = e.toLoverCase().replace(" ", "_");
+      // }).
+      //.indexOf(card.category) != -1 ||
+      // this.$store.state.checkedFilters
+      //.forEach((e) => {
+      //   e = e.toLoverCase().replace(" ", "_");
+      //  })
+      //.indexOf(card.brand) != -1
+      //);
+      //$store.state.checkedFilters.toLowerCase().some(card.category);
+      //return card;
+    },
     searchCards() {
-      return this.cards.filter((card) =>
+      return this.filterCards.filter((card) =>
         card.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
