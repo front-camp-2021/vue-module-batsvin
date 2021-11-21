@@ -16,6 +16,18 @@
         <h2 v-else>List clear</h2>
       </section>
     </main>
+    <div class="pagination">
+      <a href="/#" @click="previosPage()">&laquo;</a>
+      <a
+        href="/#"
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
+        :class="{ active: page === pageNumber }"
+        @click="changePage(pageNumber)"
+        >{{ pageNumber }}</a
+      >
+      <a href="/#" @click="nextPage()">&raquo;</a>
+    </div>
   </div>
 </template>
 
@@ -41,12 +53,35 @@ export default {
       brands: [],
       categories: [],
       searchQuery: "",
+      page: 3,
+      limit: 9,
+      totalPages: 0,
     };
   },
   methods: {
+    changePage(pageNumber) {
+      this.page = pageNumber;
+      this.fetchCards();
+    },
+    nextPage() {
+      this.page += 1;
+      this.fetchCards();
+    },
+    previosPage() {
+      this.page -= 1;
+      this.fetchCards();
+    },
     async fetchCards() {
       try {
-        const response = await axios.get("http://localhost:3000/products");
+        const response = await axios.get("http://localhost:3000/products", {
+          params: {
+            _page: this.page,
+            _limit: this.limit,
+          },
+        });
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
         this.cards = response.data;
       } catch (e) {
         alert("warning with cards data");
@@ -492,6 +527,30 @@ header img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 10px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+}
+
+.pagination a.active {
+  background-color: #7e72f2;
+  color: white;
+  border: 1px solid #7e72f2;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
 }
 @media screen and (min-device-width: 1200px) and (max-device-width: 2400px) and (-webkit-min-device-pixel-ratio: 1) {
   .aside {
