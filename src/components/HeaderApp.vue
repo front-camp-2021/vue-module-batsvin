@@ -9,8 +9,9 @@
         <li>
           <a href="#"><img src="img / house - door.svg" alt="" /></a>
         </li>
-        <li><a href="#">eCommerce</a></li>
-        <li>Electronics</li>
+        <li @click="$router.push('/')"><a href="#">Shop</a></li>
+        <li @click="$router.push('/WishList')"><a href="#">Wish List</a></li>
+        <li @click="$router.push('/Cart')"><a href="#">Cart</a></li>
       </ul>
     </nav>
   </div>

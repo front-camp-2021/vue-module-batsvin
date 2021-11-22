@@ -1,6 +1,6 @@
 <template>
   <div class="card-background">
-    <section class="card">
+    <section class="card" @click="$router.push('/shop/${card.id}')">
       <div class="card__img">
         <div class="card__img-padding">
           <img :src="card.images[0]" :alt="card.title" />
